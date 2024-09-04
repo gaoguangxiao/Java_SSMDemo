@@ -1,0 +1,20 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans xmlns="http://www.springframework.org/schema/beans"
+       xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+       xsi:schemaLocation="http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans.xsd">
+
+<!--   配置dao-->
+    <bean id="userDao" class="com.itheima.dao.impl.UserDaoImpl">
+        <property name="name" value="张三"/>
+        <property name="age" value="100"/>
+    </bean>
+
+    <bean id="bookDao" class="com.itheima.dao.impl.BookDaoImpl"></bean>
+
+    <bean id="userService" class="com.itheima.service.impl.UserServiceImpl">
+<!--     配置属性是没有顺序   -->
+        <property name="userDao" ref="userDao"/>
+        <property name="bookDao" ref="bookDao"/>
+    </bean>
+
+</beans>

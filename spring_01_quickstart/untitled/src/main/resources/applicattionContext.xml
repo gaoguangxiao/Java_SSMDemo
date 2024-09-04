@@ -1,0 +1,31 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans xmlns="http://www.springframework.org/schema/beans"
+       xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+       xsi:schemaLocation="http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans.xsd">
+
+<!--    导入Spring坐标-->
+
+<!--    2、配置bean  2-->
+<!--
+
+id表示给bean起名字
+class 表示给bean定义类型
+
+-->
+
+    <bean id = "bookDao" class="com.itheima.dao.impl.BookDaoImpl"></bean>
+
+<!--
+name：
+功能定义bean的别名，可以定义多个，使用逗号， 分号；空格分割
+是bean的标签，
+-->
+    <bean id="bookService" name="bookServiceimpl" class="com.itheima.service.impl.BookServiceimpl">
+
+<!--       property配置service中属性
+name是属性dao
+ref是bean定义的id
+ -->
+        <property name="bookDao" ref="bookDao"></property>
+    </bean>
+</beans>

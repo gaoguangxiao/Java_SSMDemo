@@ -1,0 +1,64 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans xmlns="http://www.springframework.org/schema/beans"
+       xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+       xmlns:context="http://www.springframework.org/schema/context"
+       xsi:schemaLocation="
+       http://www.springframework.org/schema/beans
+       http://www.springframework.org/schema/beans/spring-beans.xsd
+       http://www.springframework.org/schema/context
+       http://www.springframework.org/schema/context/spring-context.xsd"
+>
+
+    <!--    <bean class="com.alibaba.druid.pool.DruidDataSource">-->
+    <!--        <property name="driverClassName" value="com.mysql.jdbc.Driver"/>-->
+    <!--        <property name="url" value="jdbc:mysql:///spring_db"/>-->
+    <!--        <property name="username" value="root"/>-->
+    <!--        <property name="password" value="g12345678"/>-->
+    <!--    </bean>-->
+
+    <!--    <bean id="dataSource" class="com.mchange.v2.c3p0.ComboPooledDataSource">-->
+    <!--        <property name="driverClass" value="com.mysql.jdbc.Driver"/>-->
+    <!--        <property name="jdbcUrl" value="jdbc:mysql:///spring_db"/>-->
+    <!--        <property name="user" value="root"/>-->
+    <!--        <property name="password" value="g12345678"/>-->
+    <!--    </bean>-->
+    <!--
+     1、开启命名空间 context,
+       复制，增加一行
+       1.1、xmlns:context="http://www.springframework.org/schema/context",将所有beans改为context
+            xmlns增加冒号，添加content，
+       1.2 在xsi:schemaLoaction后面增加
+           http://www.springframework.org/schema/context
+           http://www.springframework.org/schema/context/spring-context.xsd"
+     2、使用 context加载命名空间
+     3、使用${}加载properties
+
+     加载properties有不同方式
+
+
+     -->
+
+<!--    不加载系统属性 -->
+    <context:property-placeholder location="jdbc.properties" system-properties-mode="NEVER"/>
+<!--    加载多个properties文件-->
+<!--    <context:property-placeholder location="jdbc.properties,jdbc2.properties"/>-->
+<!--&lt;!&ndash;    加载所有properties&ndash;&gt;-->
+<!--    <context:property-placeholder location="*.properties"/>-->
+<!--&lt;!&ndash;    加载properties文件的标准格式&ndash;&gt;-->
+<!--    <context:property-placeholder location="classpath:*.properties"/>-->
+<!--&lt;!&ndash;    从类路径或jar包中搜索并加载properties文件&ndash;&gt;-->
+<!--    <context:property-placeholder location="classpath*:*.properties"/>-->
+
+    <bean id="dataSource" class="com.mchange.v2.c3p0.ComboPooledDataSource">
+        <property name="driverClass" value="${jdbc.driver}"/>
+        <property name="jdbcUrl" value="${jdbc.url}"/>
+        <property name="user" value="${jdbc.username}"/>
+        <property name="password" value="${jdbc.password}"/>
+    </bean>
+
+    <bean id="bookDao" class="com.itheima.dao.impl.BookDaoImpl" lazy-init="true">
+<!--        <property name="name" value="${jdbc.driver}"/>-->
+        <constructor-arg name="name" value="DDD"/>
+    </bean>
+
+</beans>

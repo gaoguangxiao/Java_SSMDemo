@@ -1,0 +1,121 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+        PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "https://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+
+<mapper namespace="com.itheima.mapper.BrandMapper">
+    <!--    数据库字段名称和实体类的属性名称不一致，不能自动封装数据-->
+    <resultMap id="brandResultMap" type="brand">
+        <result column="brand_name" property="brandName"/>
+        <result column="componey_name" property="componeyName"/>
+    </resultMap>
+
+    <insert id="add" useGeneratedKeys="true" keyProperty="id">
+        insert into tb_brand (brand_name,componey_name,ordered,decription,status)
+        values (#{brandName},#{componeyName},#{ordered},#{decription},#{status});
+    </insert>
+
+    <update id="update">
+        update tb_brand
+        <set>
+            <if test="brandName != null and brandName != ''">
+                brand_name = #{brandName},
+            </if>
+            <if test="componeyName != null and componeyName != '' ">
+                componey_name = #{componeyName},
+            </if>
+            <if test="ordered != null">
+                ordered = #{ordered},
+            </if>
+            <if test="decription != null">
+                decription = #{decription},
+            </if>
+            <if test="status != null">
+                status = #{status}
+            </if>
+        </set>
+        where id = #{id};
+    </update>
+
+    <delete id="deleteById">
+        delete from tb_brand where id = #{id};
+    </delete>
+
+<!--    mybatis对数组参数会封装为Map集合
+默认array = 数组
+使用注解改变array遍历
+-->
+    <delete id="deleyeByids">
+        delete from tb_brand
+        where id
+        in(
+        <foreach collection="ids" item="id" separator=",">
+            #{id}
+        </foreach>
+        );
+    </delete>
+
+    <!--
+    查询所有商品
+    -->
+    <select id="selectAll" resultMap="brandResultMap">
+        select *
+        from tb_brand;
+    </select>
+
+    <!--
+    根据ID查询商品
+    -->
+    <select id="selectById" resultMap="brandResultMap">
+        select *
+        from tb_brand where id
+        = ${id};
+    </select>
+
+    <!--
+    条件查询
+    -->
+    <!--    <select id="selectByCondition" resultMap="brandResultMap">-->
+    <!--        select *-->
+    <!--        from tb_brand-->
+    <!--        where status = #{status}-->
+    <!--        and brand_name like #{brandName}-->
+    <!--        and componey_name like #{componeyName}-->
+    <!--    </select>-->
+
+    <!--
+    动态条件查询
+    -->
+    <select id="selectByCondition" resultMap="brandResultMap">
+        select *
+        from tb_brand
+        where
+<!--        1 = 1-->
+<!--        <if test="status != null">-->
+<!--            status = #{status}-->
+<!--        </if>-->
+<!--        <if test="brandName != null and brandName != '' ">-->
+<!--            and brand_name like #{brandName}-->
+<!--        </if>-->
+<!--        <if test="componeyName != null and componeyName != '' ">-->
+<!--            and componey_name like #{componeyName}-->
+<!--        </if>-->
+
+        <choose>
+            <when test="status != null">
+                status = #{status}
+            </when>
+            <when test="brandName != null and brandName != '' ">
+                brand_name like #{brandName}
+            </when>
+            <when test="componeyName != null and componeyName != '' ">
+                componey_name like #{componeyName}
+            </when>
+            <otherwise>
+                1 = 1
+            </otherwise>
+        </choose>
+    </select>
+
+</mapper>

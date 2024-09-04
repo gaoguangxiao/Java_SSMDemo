@@ -1,0 +1,20 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans xmlns="http://www.springframework.org/schema/beans"
+       xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+       xsi:schemaLocation="http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans.xsd">
+
+    <bean id="UserService" class="com.itheima.service.impl.UserServiceimpl"></bean>
+
+<!-- 静态工厂创建的对象-->
+    <bean id="OrderService" class="com.itheima.factory.OrderDaoFactory" factory-method="getOrderService"></bean>
+
+<!--  实例工厂  -->
+    <bean id="MatchFactory" class="com.itheima.factory.MatchDaoFactory"></bean>
+
+<!--  factory-bean 获取工厂实例，然后 factory-method 获取工厂方法造出bean对象  -->
+    <bean id="MatchService" factory-method="getMatchService" factory-bean="MatchFactory"></bean>
+
+<!--    使用factorybean实例化bean-->
+    <bean id="MatchService" class="com.itheima.factory.MatchDaoFactoryBean"></bean>
+</beans>
+
